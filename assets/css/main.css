@@ -40,7 +40,7 @@
 /* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
 
 .light-background {
-  --background-color: #6e7277;
+  --background-color: #4a6b70;
   --surface-color: #ffffff;
 }
 
@@ -407,7 +407,7 @@ h6 {
   .navmenu a:hover,
   .navmenu .active,
   .navmenu .active:focus {
-    color: var(--nav-dropdown-hover-color);
+    color: #3d4a4e;
   }
 
   .navmenu .active i,
@@ -729,12 +729,12 @@ section,
 .hero p {
   margin: 10px 0 0 0;
   font-size: 24px;
-  color: #fff;
+  color: #3d4a4e;
 }
 
 .hero .btn-get-started {
-  color: var(--contrast-color);
-  background: var(--accent-color);
+  color: #3d4a4e;
+  background: #8c8171;
   font-family: var(--heading-font);
   text-transform: uppercase;
   font-weight: 600;
