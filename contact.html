@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Contact - Kelly Bootstrap Template</title>
+  <title>聯繫方式-個人履歷檔案集</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -51,20 +51,20 @@
         <ul>
           <li><a href="index.html">首頁</a></li>
           <li><a href="about.html">個人簡介</a></li>
-          <li><a href="resume.html">工作簡歷</a></li>
+          <li><a href="resume.html">經歷</a></li>
           <li><a href="services.html">專業技能</a></li>
           <li class="dropdown">
             <a href="#"><span>作品集</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="portfolio.html">生活紀錄</a></li>
-              <li><a href="#">Dropdown 1</a></li>
+              <!--<li><a href="#">Dropdown 1</a></li>
               <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                 <ul>
                   <li><a href="#">Deep Dropdown 1</a></li>
                   <li><a href="#">Deep Dropdown 2</a></li>
                 </ul>
               </li>
-              <li><a href="#">Dropdown 2</a></li>
+              <li><a href="#">Dropdown 2</a></li>-->
             </ul>
           </li>
           <li><a href="contact.html" class="active">聯繫方式</a></li>
@@ -100,7 +100,7 @@
                 <i class="bi bi-geo-alt flex-shrink-0"></i>
                 <div>
                   <h3>通訊地址</h3>
-                  <p>A108 Adam Street, New York, NY 535022</p>
+                  <p>台中市南區國光路295號</p>
                 </div>
               </div><!-- End Info Item -->
 
@@ -108,7 +108,7 @@
                 <i class="bi bi-telephone flex-shrink-0"></i>
                 <div>
                   <h3>電話號碼</h3>
-                  <p>+1 5589 55488 55</p>
+                  <p>0916293791</p>
                 </div>
               </div><!-- End Info Item -->
 
@@ -116,12 +116,12 @@
                 <i class="bi bi-envelope flex-shrink-0"></i>
                 <div>
                   <h3>電子郵件</h3>
-                  <p>info@example.com</p>
+                  <p>jx9502@gmail.com</p>
                 </div>
               </div><!-- End Info Item -->
 
               <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d48389.78314118045!2d-74.006138!3d40.710059!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a22a3bda30d%3A0xb89d1fe6bc499443!2sDowntown%20Conference%20Center!5e0!3m2!1sen!2sus!4v1676961268712!5m2!1sen!2sus" frameborder="0" style="border:0; width: 100%; height: 270px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
+              </div>
           </div>
 
           <div class="col-lg-7">
@@ -149,10 +149,12 @@
                 </div>
 
                 <div class="col-md-12 text-center">
-                  <div class="loading">傳送中……</div>
-                  <div class="error-message" style="display:none !important;"></div>
-                  <div class="sent-message">已收到您的留言，請等待回覆。</div>
-
+                  <!-- 提示訊息區塊：預設全部使用行內樣式隱藏，避免干擾 -->
+                  <div class="loading" style="display: none;">正在傳送中...</div>
+                  <div class="error-message" style="display: none;"></div>
+                  <div class="sent-message" style="display: none;">已收到您的留言，請等待回覆。</div>
+    
+                  <!-- 按鈕：維持在原本的 div 內，不要亂動它的位置 -->
                   <button type="submit">傳送留言</button>
                 </div>
 
@@ -208,27 +210,23 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
   <script>
-  document.getElementById('google-contact-form').addEventListener('submit', function(e) {
-    e.preventDefault(); // 阻止網頁跳轉
-    
-    var form = this;
+    // 【最關鍵：補上這四行】讓 JavaScript 正確抓到您修改後的 HTML 元素
+    var form = document.getElementById('google-contact-form');
     var loading = form.querySelector('.loading');
     var errorMessage = form.querySelector('.error-message');
     var sentMessage = form.querySelector('.sent-message');
-    
-    // 顯示 Loading，隱藏其他提示
+
+    // 1. 當表單點擊送出時
+    form.addEventListener('submit', function(e) {
+    e.preventDefault(); // 阻止頁面重整
+    var searchParams = new URLSearchParams(new FormData(form));
+
+    // 顯示 Loading，並確保其他提示先藏起來
     loading.style.display = 'block';
     errorMessage.style.display = 'none';
     sentMessage.style.display = 'none';
-    
-    // 封裝表單資料
-    var formData = new FormData(form);
-    var searchParams = new URLSearchParams();
-    for (var pair of formData) {
-        searchParams.append(pair[0], pair[1]);
-    }
-    
-    // 用 fetch 發送 POST 請求到 Google GAS
+
+    // 2. 發送請求到 Google GAS
     fetch(form.action, {
         method: 'POST',
         body: searchParams,
@@ -238,21 +236,31 @@
     })
     .then(response => response.text())
     .then(data => {
-        loading.style.display = 'none';
-        if (data === 'success') {
-            sentMessage.style.display = 'block'; // 顯示成功畫面
-            form.reset(); // 清空表單
+        // 收到回應了，立刻把 Loading 隱藏
+        loading.style.display = 'none'; 
+
+        if (data.trim() === 'success') { // 加上 .trim() 預防 GAS 回傳帶有空白
+            // 成功：只顯示成功訊息，清空表單
+            sentMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+            form.reset();
         } else {
+            // 失敗：只顯示錯誤訊息
             errorMessage.textContent = '傳送失敗，請稍後再試。錯誤原因：' + data;
             errorMessage.style.display = 'block';
+            sentMessage.style.display = 'none';
         }
     })
     .catch(error => {
+        // 連線發生錯誤：立刻把 Loading 隱藏
         loading.style.display = 'none';
+        sentMessage.style.display = 'none';
+        
+        // 顯示連線錯誤訊息
         errorMessage.textContent = '連線錯誤：' + error;
         errorMessage.style.display = 'block';
     });
-  });
+});
 </script>
 
 </body>
