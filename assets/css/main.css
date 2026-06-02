@@ -89,26 +89,28 @@ h6 {
 
 /* PHP Email Form Messages
 ------------------------------*/
-.php-email-form .error-message {display: none !important;
-  visibility: hidden !important; /* 隱藏元素 */
-  opacity: 0 !important;          /* 變成完全透明 */
-  height: 0 !important;           /* 高度歸零 */
-  padding: 0 !important;          /* 內邊距歸零（消滅紅色大區塊） */
-  margin: 0 !important;           /* 外邊距歸零 */
-  border: none !important;        /* 拔掉任何邊框 */
-  font-size: 0 !important;        /* 字體縮小到不見 */
+.php-email-form .error-message {
+    display: none; /* 只要這一行就能完全隱藏，不需要 !important */
+    color: #fff;
+    background: #df151a; /* 通常錯誤訊息是紅色，可依您喜好調整 */
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 24px;
+    font-weight: 600;
 }
 
-.php-email-form .sent-message {
-  display: none;
-  color: #ffffff;
-  background: #059652;
-  text-align: center;
-  padding: 15px;
-  margin-bottom: 24px;
-  font-weight: 600;
+.php-email-form button[type="submit"] {
+  background: #059652; /* 綠色或您原本的藍色底色 */
+  border: 0;
+  padding: 10px 24px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 4px;
 }
 
+.php-email-form button[type="submit"]:hover {
+  background: #047843; /* 懸停時的深色 */
+}
 
 .php-email-form .loading {
   display: none;
@@ -1403,14 +1405,7 @@ section,
   color: color-mix(in srgb, var(--default-color), transparent 70%);
 }
 
-.contact .php-email-form button[type=submit] {
-  color: var(--contrast-color);
-  background: var(--accent-color);
-  border: 0;
-  padding: 10px 30px;
-  transition: 0.4s;
-  border-radius: 50px;
-}
+
 
 .contact .php-email-form button[type=submit]:hover {
   background: color-mix(in srgb, var(--accent-color), transparent 25%);
@@ -1421,4 +1416,20 @@ section,
 --------------------------------------------------------------*/
 .starter-section {
   /* Add your styles here */
+}
+#google-contact-form button[type="submit"] {
+    background: #7a6f62 !important; 
+    color: #ffffff !important;      
+    border: none !important;
+    padding: 10px 30px !important;
+    font-size: 16px !important;
+    transition: 0.4s !important;
+    border-radius: 50px !important; 
+    cursor: pointer !important;
+    display: inline-block !important;
+}
+
+#google-contact-form button[type="submit"]:hover {
+    background: #63594f !important; 
+    opacity: 0.9 !important;
 }
